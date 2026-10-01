@@ -37,7 +37,8 @@ const SCOLS = COLS * SUB, SROWS = ROWS * SUB;
 const BRUSH_R = 8;               // small round brush radius (px)
 // noise-robust motion: a sample must look "moved" on consecutive frames
 // before it may paint — camera flicker / auto-exposure never sustains.
-const MOTION_T = 110;            // per-sample RGB change needed (sensor noise is far below)
+const MOTION_T = 85;             // per-sample RGB change needed (sensor noise is far below;
+// lowered from 110 — slow waves must still count as motion)
 const STEP = 4;
 const GW = VW / STEP, GH = VH / STEP;
 let heat = [];                   // 0..3 per sample; paints only at >= 2
