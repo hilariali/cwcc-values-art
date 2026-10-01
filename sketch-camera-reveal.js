@@ -11,8 +11,9 @@
    The detector is noise-robust: a spot must keep moving on
    consecutive frames before it paints, so camera flicker or a
    still face never clears the veil by itself.
-   The brush is a small round dab (~16px), so one wave only
-   clears a thin trail — reaching 100% takes many waves.
+   The brush is a generous round dab (~24px) and light waves count,
+   so kids can reveal the photo with happy enthusiastic waving —
+   reaching 100% still takes a good few waves, but never a grind.
    Edges & corners are awkward to wave at directly, so when a
    nearby block lifts, border-zone neighbours lift together.
 
@@ -36,13 +37,13 @@ const SUB = 3;                   // brush paints at 1/3-tile resolution (8px)
 const SCELL = CELL / SUB;        // 8px sub-cell
 const COLS = W / CELL, ROWS = H / CELL;
 const SCOLS = COLS * SUB, SROWS = ROWS * SUB;
-const BRUSH_R = 8;               // small round brush radius (px)
+const BRUSH_R = 12;              // round brush radius (px) — a generous dab for little hands
 const EDGE_BAND = 8;             // sub-cells (~64px): the frame border zone
 const EDGE_LIFT = 0.4;           // border-zone neighbours lift together
 // noise-robust motion: a sample must look "moved" on consecutive frames
 // before it may paint — camera flicker / auto-exposure never sustains.
-const MOTION_T = 85;             // per-sample RGB change needed (sensor noise is far below;
-// lowered from 110 — slow waves must still count as motion)
+const MOTION_T = 75;             // per-sample RGB change needed — light kid-waves count;
+// the 2-frame heat gate (below) still keeps camera noise from painting
 const STEP = 4;
 const GW = VW / STEP, GH = VH / STEP;
 let heat = [];                   // 0..3 per sample; paints only at >= 2
@@ -139,7 +140,7 @@ function detectMotion() {
             const dx = cx - mxx, dy = cy - myy;
             if (dx * dx + dy * dy <= BRUSH_R * BRUSH_R) {
               const idx = sr * SCOLS + sc;
-              veil[idx] = min(1, veil[idx] + 0.5);
+              veil[idx] = min(1, veil[idx] + 0.65);
               // edges & corners are awkward to wave at directly: when a
               // nearby block lifts, border-zone neighbours lift together
               for (let dr = -1; dr <= 1; dr++) {
