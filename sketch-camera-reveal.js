@@ -37,8 +37,8 @@ const SCELL = CELL / SUB;        // 8px sub-cell
 const COLS = W / CELL, ROWS = H / CELL;
 const SCOLS = COLS * SUB, SROWS = ROWS * SUB;
 const BRUSH_R = 8;               // small round brush radius (px)
-const EDGE_BAND = 5;             // sub-cells (~40px): the frame border zone
-const EDGE_LIFT = 0.25;          // border-zone neighbours lift together at half rate
+const EDGE_BAND = 8;             // sub-cells (~64px): the frame border zone
+const EDGE_LIFT = 0.4;           // border-zone neighbours lift together
 // noise-robust motion: a sample must look "moved" on consecutive frames
 // before it may paint — camera flicker / auto-exposure never sustains.
 const MOTION_T = 85;             // per-sample RGB change needed (sensor noise is far below;
