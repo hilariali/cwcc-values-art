@@ -13,6 +13,8 @@
    still face never clears the veil by itself.
    The brush is a small round dab (~16px), so one wave only
    clears a thin trail — reaching 100% takes many waves.
+   Edges & corners are awkward to wave at directly, so when a
+   nearby block lifts, border-zone neighbours lift together.
 
    As the picture appears, the four CWCC values light up:
      25%  CHEERFUL      (gold)      — Cheer for opportunities
@@ -35,6 +37,8 @@ const SCELL = CELL / SUB;        // 8px sub-cell
 const COLS = W / CELL, ROWS = H / CELL;
 const SCOLS = COLS * SUB, SROWS = ROWS * SUB;
 const BRUSH_R = 8;               // small round brush radius (px)
+const EDGE_BAND = 5;             // sub-cells (~40px): the frame border zone
+const EDGE_LIFT = 0.25;          // border-zone neighbours lift together at half rate
 // noise-robust motion: a sample must look "moved" on consecutive frames
 // before it may paint — camera flicker / auto-exposure never sustains.
 const MOTION_T = 85;             // per-sample RGB change needed (sensor noise is far below;
@@ -136,6 +140,20 @@ function detectMotion() {
             if (dx * dx + dy * dy <= BRUSH_R * BRUSH_R) {
               const idx = sr * SCOLS + sc;
               veil[idx] = min(1, veil[idx] + 0.5);
+              // edges & corners are awkward to wave at directly: when a
+              // nearby block lifts, border-zone neighbours lift together
+              for (let dr = -1; dr <= 1; dr++) {
+                for (let dc = -1; dc <= 1; dc++) {
+                  if (dr === 0 && dc === 0) continue;
+                  const nc = sc + dc, nr = sr + dr;
+                  if (nc < 0 || nr < 0 || nc >= SCOLS || nr >= SROWS) continue;
+                  const edgeDist = min(nc, nr, SCOLS - 1 - nc, SROWS - 1 - nr);
+                  if (edgeDist <= EDGE_BAND) {
+                    const nidx = nr * SCOLS + nc;
+                    veil[nidx] = min(1, veil[nidx] + EDGE_LIFT);
+                  }
+                }
+              }
             }
           }
         }
