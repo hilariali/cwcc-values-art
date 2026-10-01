@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Values Bloom — Finger Pointer &middot; CWCC Values Interactive Art</title>
+<script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
+<style>
+  body { margin:0; background:#001F47; color:#fff;
+         font-family:'Trebuchet MS','Segoe UI',sans-serif;
+         display:flex; flex-direction:column; align-items:center; min-height:100vh; }
+  .topbar { width:100%; max-width:1000px; display:flex; align-items:center; gap:12px;
+            padding:12px 16px; box-sizing:border-box; }
+  .topbar a { color:#FBCB09; text-decoration:none; font-weight:bold; white-space:nowrap; }
+  .topbar a:hover { text-decoration:underline; }
+  .topbar span { color:rgba(255,255,255,.75); font-size:14px; }
+  canvas { max-width:100%!important; height:auto!important; display:block;
+           border-radius:8px; box-shadow:0 8px 40px rgba(0,0,0,.55); touch-action:none; }
+  .wrap { padding:0 8px 24px; display:flex; justify-content:center; width:100%; box-sizing:border-box; }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">&larr; All pieces</a><span>Point with your finger and wave — the golden brush follows your movement (camera).</span></div>
+<div class="wrap"><script src="sketch-finger-game.js"></script></div>
+</body>
+</html>
