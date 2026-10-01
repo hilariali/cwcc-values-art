@@ -220,6 +220,11 @@ function draw() {
     }
   }
   progress = sum / (SCOLS * SROWS);
+  // grand finale: at 95% the rest of the veil melts away on its own
+  if (progress >= 0.95 && progress < 1) {
+    for (let i = 0; i < veil.length; i++) veil[i] = 1;
+    progress = 1;
+  }
 
   // --- value milestones ---
   for (let i = 0; i < 4; i++) {
