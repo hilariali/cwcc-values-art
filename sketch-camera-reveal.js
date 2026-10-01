@@ -39,7 +39,7 @@ const COLS = W / CELL, ROWS = H / CELL;
 const SCOLS = COLS * SUB, SROWS = ROWS * SUB;
 const BRUSH_R = 12;              // round brush radius (px) — a generous dab for little hands
 const EDGE_BAND = 8;             // sub-cells (~64px): the frame border zone
-const EDGE_LIFT = 0.4;           // border-zone neighbours lift together
+const EDGE_LIFT = 0.44;          // border-zone neighbours lift together (+10% kid-easy)
 // noise-robust motion: a sample must look "moved" on consecutive frames
 // before it may paint — camera flicker / auto-exposure never sustains.
 const MOTION_T = 75;             // per-sample RGB change needed — light kid-waves count;
@@ -140,7 +140,7 @@ function detectMotion() {
             const dx = cx - mxx, dy = cy - myy;
             if (dx * dx + dy * dy <= BRUSH_R * BRUSH_R) {
               const idx = sr * SCOLS + sc;
-              veil[idx] = min(1, veil[idx] + 0.65);
+              veil[idx] = min(1, veil[idx] + 0.72);
               // edges & corners are awkward to wave at directly: when a
               // nearby block lifts, border-zone neighbours lift together
               for (let dr = -1; dr <= 1; dr++) {
